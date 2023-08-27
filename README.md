@@ -1,3 +1,9 @@
+<style>
+    h2, h3, h4, h5, h6 {
+    border:0
+}
+</style>
+
 # ESP32 Camera Demo
 
 A simplified Arduino ESP32 camera demo. Offers viewing of still photos and video streams, along with network configuration functionality.
