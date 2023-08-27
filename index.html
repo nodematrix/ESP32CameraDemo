@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon"
+    href="data:image/x-icon;base64,AAABAAEAEBACAAAAAQCwAAAAFgAAACgAAAAQAAAAIAAAAAEAAQAAAAAAQAAAAAAAAAAAAAAAAgAAAAIAAAClfDoA////AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADAAwAAgAEAAB/4AAA//AAAM8wAADOMAADzDwAA8g8AAPBPAADwzwAAMcwAADPMAAA//AAAH/gAAIABAADAAwAA">
+  <title>Camera</title>
+  <style>
+    body {
+      font-family: Arial;
+      font-size: 16px;
+      color: #eee;
+      background: #111;
+      margin: 8px;
+    }
+
+    a {
+      display: inline-block;
+    }
+
+    a:link,
+    a:visited,
+    a:hover,
+    a:active {
+      color: #eee;
+      text-decoration: none;
+    }
+
+    button {
+      display: inline-block;
+      width: 80px;
+      font-size: 16px;
+      line-height: 28px;
+      padding: 0;
+      margin: 5px;
+      color: #eee;
+      background: #3a7ca5;
+      border: 0;
+      border-radius: 4px;
+      outline: 0;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    button:hover {
+      background: #5096c2;
+    }
+
+    button:active {
+      position: relative;
+      top: 1px;
+      background: #3a7ca5;
+    }
+
+    button:disabled {
+      background: grey;
+      cursor: default;
+    }
+
+    select,
+    input[type=text],
+    input[type=number],
+    input[type=password] {
+      width: 100%;
+      height: 22px;
+      padding: 0 4px;
+      font-size: 14px;
+      outline: 0;
+      border: 0;
+      border-radius: 4px;
+      background: #fff;
+    }
+
+    select {
+      padding: 0 2px;
+    }
+
+    .main {
+      display: flex;
+      flex-direction: column;
+    }
+
+    #top {
+      display: flex;
+      justify-content: space-between;
+      line-height: 20px;
+      margin: 0 0 8px 0;
+    }
+
+    #title {
+      display: inline-block;
+      margin: 0 4px;
+      cursor: pointer;
+    }
+
+    #content {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: flex-start;
+    }
+
+    .panel {
+      display: flex;
+      box-sizing: border-box;
+      width: 100%;
+      max-width: 360px;
+      padding: 8px;
+      border-radius: 4px;
+      background: #333;
+    }
+
+    #sidebar {
+      flex-direction: column;
+      margin: 0 0 8px;
+    }
+
+    #toggle,
+    #toggle:checked+#sidebar {
+      display: none;
+    }
+
+    .item {
+      display: flex;
+      line-height: 22px;
+      margin: 5px 0;
+    }
+
+    .item>label {
+      display: inline-block;
+      min-width: 46%;
+    }
+
+    .item input,
+    .item select {
+      flex-grow: 1;
+    }
+
+    .tab {
+      margin-top: 5px;
+      border-bottom: 1px solid #666;
+    }
+
+    .space {
+      margin: 0 5px;
+    }
+
+    .btc {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 5px;
+    }
+
+    #frame {
+      position: relative;
+      min-width: 240px;
+      min-height: 240px;
+      margin: 0 0 8px;
+    }
+
+    #image {
+      display: block;
+      max-width: 100%;
+      border-radius: 4px;
+    }
+
+    #x {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      width: 20px;
+      font-size: 14px;
+      line-height: 20px;
+      text-align: center;
+      border-radius: 100%;
+      background: #3a7ca5;
+      cursor: pointer;
+    }
+
+    @media (max-width: 360px) {
+      body {
+        margin: 8px 0;
+      }
+    }
+
+    @media (min-width: 680px) and (orientation:landscape) {
+      #content {
+        flex-direction: row;
+      }
+
+      #sidebar {
+        margin: 0 8px 0 0;
+      }
+
+      #frame {
+        margin: 0 8px 0 0;
+      }
+
+      #image {
+        max-height: calc(100vh - 44px);
+      }
+
+    }
+
+    .msg {
+      line-height: 22px;
+      padding: 8px;
+      margin: 5px 0;
+      word-wrap: break-word;
+      border-radius: 4px;
+    }
+
+    .ok {
+      background: #39ac73;
+    }
+
+    .warn {
+      color: #111;
+      background: #ffb366;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    button {
+      -webkit-tap-highlight-color: transparent;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      user-select: none;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="main">
+    <div id="top">
+      <label for="toggle" id="title">&#9776; Toggle</label>
+    </div>
+    <div id="content">
+      <input type="checkbox" id="toggle">
+      <div id="sidebar" class="panel">
+        <div class="item">
+          <label>Wi-Fi Mode</label>
+          <select id="wifi_mode" tg val>
+            <option value="1" selected>STA</option>
+            <option value="2">SoftAP</option>
+          </select>
+        </div>
+        <div class="item">
+          <label for="ssid">SSID</label>
+          <input type="text" id="ssid" maxlength="30" val>
+        </div>
+        <div class="item">
+          <label for="pwd">Password</label>
+          <input type="password" id="pwd" maxlength="30" val>
+        </div>
+        <div id="tg_ap" class="item hidden">
+          <label for="channel">Channel</label>
+          <input type="number" id="channel" value="1" min="1" max="13" val>
+        </div>
+
+        <div id="out" class="msg hidden"></div>
+
+        <div class="btc">
+          <button id="save">Save</button>
+        </div>
+
+        <div class="tab"></div>
+
+        <div class="btc">
+          <button id="still">Still</button>
+          <div class="space"></div>
+          <button id="stream">Stream</button>
+        </div>
+      </div>
+
+      <div id="frame" class="hidden">
+        <div id="x" title="Close">&#10006;</div>
+        <img id="image" src="">
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+      const host = document.location.origin
+      const d = id => document.getElementById(id)
+      const q = sel => document.querySelectorAll(sel)
+      const hide = el => el.classList.add('hidden')
+      const show = el => el.classList.remove('hidden')
+      const disable = el => el.disabled = true
+      const enable = el => el.disabled = false
+
+      let timer
+      const out = d('out')
+      const pop = (msg, style) => {
+        out.classList.remove('ok', 'warn')
+        out.classList.add(style)
+        out.innerHTML = msg
+        show(out)
+        clearTimeout(timer)
+        timer = setTimeout(() => hide(out), 6000)
+      }
+      const ok = msg => pop(msg, 'ok')
+      const warn = msg => pop(msg, 'warn')
+
+      const tg_ap = d('tg_ap')
+      const save = d('save')
+      const frame = d('frame')
+      const image = d('image')
+      const still = d('still')
+      const stream = d('stream')
+
+      const toggle = el => {
+        if (el.id == 'wifi_mode') {
+          el.value == '1' ? hide(tg_ap) : show(tg_ap)
+          d('ssid').value = ''
+          d('pwd').value = ''
+        }
+      }
+
+      for (const el of q('[tg]')) {
+        el.onchange = () => toggle(el)
+      }
+
+      const filter = r => {
+        if (r.status == 200) return true
+        if ([400, 401, 500].indexOf(r.status) >= 0) r.text().then(msg => warn(msg == '' ? r.statusText : msg))
+        else warn(r.statusText)
+        return false
+      }
+
+      // init
+      fetch(`${host}/settings`)
+        .then(r => {
+          if (!filter(r)) return
+          r.json().then(data => {
+            console.log(JSON.stringify(data))
+            for (const el of q('[val]')) {
+              if (data[el.id] == undefined) continue
+              el.value = data[el.id]
+              if (el.hasAttribute('tg')) toggle(el)
+            }
+          })
+        })
+        .catch(e => warn(e.message))
+
+      // save
+      save.onclick = () => {
+        let wifi_mode = d('wifi_mode').value
+        let ssid = d('ssid').value
+        let pwd = d('pwd').value
+        let channel = d('channel').value
+
+        disable(save)
+        fetch(`${host}/save?wifi_mode=${wifi_mode}&ssid=${ssid}&pwd=${pwd}&channel=${channel}`)
+          .then(r => {
+            if (!filter(r)) return
+            ok('Settings saved, restart for changes.')
+            enable(save)
+          })
+          .catch(e => warn(e.message))
+      }
+
+      // image
+      const off = () => {
+        if (stream.innerHTML == 'Stop') {
+          stream.innerHTML = 'Stream'
+          window.stop()
+          image.src = ''
+        }
+        hide(frame)
+      }
+
+      d('x').onclick = off
+
+      still.onclick = () => {
+        off()
+        image.src = `${host}/still?t=${Date.now()}`
+        show(frame)
+      }
+
+      stream.onclick = () => {
+        if (stream.innerHTML == 'Stream') {
+          stream.innerHTML = 'Stop'
+          image.src = `${host}:81/stream`
+          show(frame)
+        }
+        else off()
+      }
+
+    })
+  </script>
+</body>
+
+</html>
