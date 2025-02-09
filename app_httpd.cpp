@@ -151,7 +151,7 @@ static esp_err_t save_handler(httpd_req_t *req) {
     if (httpd_query_key_value(buf, "ssid", ssid, sizeof(ssid)) != ESP_OK) {
         return httpd_resp_send_err(req, HTTPD_400_BAD_REQUEST, "Invalid SSID");
     }
-    if (httpd_query_key_value(buf, "pwd", ssid, sizeof(pwd)) != ESP_OK) {
+    if (httpd_query_key_value(buf, "pwd", pwd, sizeof(pwd)) != ESP_OK) {
         return httpd_resp_send_err(req, HTTPD_400_BAD_REQUEST, "Invalid Password");
     }
     if (httpd_query_key_value(buf, "channel", value, sizeof(value)) == ESP_OK) {
