@@ -1,10 +1,10 @@
 ## ESP32 Camera Demo
-A simplified Arduino ESP32 camera demo. Offers viewing of still photos and video streams, along with network configuration functionality.
+A simplified ESP32 camera demo using Arduino. It provides still photo viewing, video streaming, and network configuration functionality.
 
 Based on [arduino-esp32 version 2.0.11](https://github.com/espressif/arduino-esp32/releases/tag/2.0.11).
 
 ### Code
-Camera sensor pins are defined in the ESP32CameraDemo.ino file. 
+The camera sensor pins are defined in the `ESP32CameraDemo.ino` file.
 ```c++
 // Node-Matrix Camera-1/M pin assignment
 #define PWDN_GPIO_NUM  -1
@@ -24,12 +24,12 @@ Camera sensor pins are defined in the ESP32CameraDemo.ino file.
 #define HREF_GPIO_NUM  39
 #define PCLK_GPIO_NUM  26
 ```
-Modify these definitions to match the specific development board.
+Modify these definitions to match your specific development board.
 
 ### Usage Instructions
-1. The firmware starts in Wi-Fi SoftAP mode by default. Use your phone to scan for Wi-Fi networks, locate and connect to the network starting with "Node-".
-2. Open a web browser on your phone, enter and access: 192.168.4.1
-3. On the webpage, you can view videos or modify network settings.
+1. The firmware starts in Wi-Fi SoftAP mode by default. Use your phone to scan for Wi-Fi networks. Find the network name starting with `Node-` and connect to it (password: `nodenode`).
+2. Open a web browser on your phone and go to `192.168.4.1`.
+3. View the video stream or modify network settings on the webpage.
 
 ### Snapshot
 ![](snapshot.png)
